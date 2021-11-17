@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Hieu.FinalProject</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hieu.FinalProject.Domain\Hieu.FinalProject.Domain.csproj" />
+    <ProjectReference Include="..\Hieu.FinalProject.Application.Contracts\Hieu.FinalProject.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Hieu.FinalProject.EntityFrameworkCore\Hieu.FinalProject.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Account.Application" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.Dapper" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="4.4.3" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Access\Dtos\" />
+    <Folder Include="Accounts\Repositories\" />
+    <Folder Include="Customers\Repositories\" />
+  </ItemGroup>
+
+</Project>
