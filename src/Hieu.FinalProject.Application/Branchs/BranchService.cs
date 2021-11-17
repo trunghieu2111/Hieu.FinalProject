@@ -8,6 +8,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hieu.FinalProject.Branchs
 {
+    //đầu tiên
     public class BranchService : CrudAppService<
         Branch,
         BranchDto,   
