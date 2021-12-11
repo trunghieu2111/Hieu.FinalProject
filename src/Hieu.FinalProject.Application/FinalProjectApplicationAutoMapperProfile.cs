@@ -5,6 +5,10 @@ using Hieu.FinalProject.Accounts.Dtos;
 using Hieu.FinalProject.Branchs;
 using Hieu.FinalProject.Customers;
 using Hieu.FinalProject.Customers.Dtos;
+using Hieu.FinalProject.Invoice.InvoiceDetail;
+using Hieu.FinalProject.Invoice.InvoiceHeader;
+using Hieu.FinalProject.Invoice.InvoiceHeader.Dtos;
+using Hieu.FinalProject.Invoice.InvoiceTaxBreak;
 using Hieu.FinalProject.Permissions;
 
 namespace Hieu.FinalProject
@@ -29,6 +33,16 @@ namespace Hieu.FinalProject
             CreateMap<Customer, CustomerDto>().ReverseMap();
             //ReverseMap 2 chiều
             CreateMap<CreateUpdateCustomerDto, Customer>().ReverseMap();
+
+            CreateMap<InvoiceDetail, InvoiceDetailDto>().ReverseMap();
+            //CreateMap<CreateUpdateInvoiceDetailDto, InvoiceDetail>().ReverseMap();
+
+            CreateMap<InvoiceHeader, InvoiceHeaderDto>().ReverseMap();
+            //ReverseMap 2 chiều
+            //CreateMap<CreateUpdateInvoiceHeaderDto, InvoiceHeader>().ReverseMap();
+
+            CreateMap<InvoiceTaxBreak, InvoiceTaxBreakDto>().ReverseMap();
+            //CreateMap<CreateUpdateInvoiceTaxBreakDto, InvoiceTaxBreak>().ReverseMap();
         }
     }
 }

@@ -4,15 +4,17 @@ using Hieu.FinalProject.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hieu.FinalProject.Migrations
 {
     [DbContext(typeof(FinalProjectDbContext))]
-    partial class FinalProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211120032623_Updata Col CustomerID of Table Customer")]
+    partial class UpdataColCustomerIDofTableCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,156 +124,6 @@ namespace Hieu.FinalProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppCustomers");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Invoice.InvoiceDetail.InvoiceDetail", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("IntoMoney")
-                        .HasColumnType("float");
-
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("NameProduct")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("PercentDiscountBeforeTax")
-                        .HasColumnType("real");
-
-                    b.Property<float>("PercentMoney")
-                        .HasColumnType("real");
-
-                    b.Property<int>("PercentTaxSell")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppInvoiceDetails");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Invoice.InvoiceHeader.InvoiceHeader", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressBuyer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AddressSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BankNumberSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyNameBuyer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyNameSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("CustomerIdSeller")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("EmailSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FulNameSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("InvoiceDay")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InvoiceForm")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InvoiceNote")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InvoiceNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("InvoiceSign")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameBankSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Payments")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("PercentDiscountAfterTax")
-                        .HasColumnType("real");
-
-                    b.Property<string>("TaxCodeBuyer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TaxCodeSeller")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TotalDiscountAfterTax")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TotalDiscountBeforeTax")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TotalPay")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TotalProduct")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TotalTax")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppInvoiceHeaders");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Invoice.InvoiceTaxBrreak.InvoiceTaxBreak", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("MoneyTaxSell")
-                        .HasColumnType("float");
-
-                    b.Property<string>("NameTaxSell")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PercentTaxSell")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppInvoiceTaxBreaks");
                 });
 
             modelBuilder.Entity("Hieu.FinalProject.Permissions.Permission", b =>

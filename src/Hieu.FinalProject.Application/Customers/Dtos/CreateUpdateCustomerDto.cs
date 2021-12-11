@@ -9,6 +9,7 @@ namespace Hieu.FinalProject.Customers.Dtos
     public class CreateUpdateCustomerDto
     {
         public long Id { set; get; }
+        public string CustomerId { set; get; }
         public string TaxCode { set; get; }
         public string Address { set; get; }
         public string Name { set; get; }

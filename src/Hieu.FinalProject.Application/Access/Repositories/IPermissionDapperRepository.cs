@@ -1,14 +1,15 @@
-﻿using Hieu.FinalProject.Access;
-using Hieu.FinalProject.Permissions;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Volo.Abp.DependencyInjection;
 
 namespace Hieu.FinalProject.Access.Repositories
 {
     public interface IPermissionDapperRepository
     {
-        Task<List<Permission>> GetListAsync();
-        Task CreateAsync(CreateUpdatePermissionDto permissionDto);
+        Task<List<PermissionDto>> GetListAsync(PermissionPageDto input);
+        Task<PermissionDto> GetAsync(Guid id);
+        Task<PermissionDto> CreateAsync(CreateUpdatePermissionDto permissionDto);
+        Task DeleteAsync(Guid id);
+        Task UpdateAsync(Guid id, CreateUpdatePermissionDto permissionDto);
     }
 }

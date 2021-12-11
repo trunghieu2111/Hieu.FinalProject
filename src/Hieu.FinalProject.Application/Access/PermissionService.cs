@@ -1,5 +1,6 @@
 ﻿using Hieu.FinalProject.Access.Repositories;
 using Hieu.FinalProject.Permissions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,61 +24,34 @@ namespace Hieu.FinalProject.Access
             _permissionDapperRepository = permissionDapperRepository;
         }
 
-        /*public async Task<List<PermissionDto>> GetListAsync()
+        public async Task<List<PermissionDto>> GetListAsync(PermissionPageDto input)
         {
-            var queryable = await _permissionDapperRepository.GetListAsync();
-
-            return queryable.Select(s => new PermissionDto
-            {
-                Id = s.Id,
-                Name = s.Name,
-                UserPermission = s.UserPermission,
-                BranchPermission = s.BranchPermission,
-                CustomerPermission = s.CustomerPermission,
-                PerPermission = s.PerPermission,
-                InvoicePermision = s.InvoicePermision
-            })
-            .ToList();
-        }*/
-
-        public async Task CreateAsync(CreateUpdatePermissionDto input)
-        {
-            await _permissionDapperRepository.CreateAsync(input);
-
-            /*var permission = new Permission
-            {
-                BranchPermission = input.PerPermission,
-
-            };
-
-            await _repository.InsertAsync(permission);*/
+            return await _permissionDapperRepository.GetListAsync(input);
         }
 
-        public async Task<Permission> GetAsync(Guid id)
+        /*[HttpPost("TestPost")]*/
+        public async Task<PermissionDto> CreateAsync(CreateUpdatePermissionDto input)
         {
-            return await _repository.GetAsync(id);
+            return await _permissionDapperRepository.CreateAsync(input);
+        }
+
+        public async Task<PermissionDto> GetAsync(Guid id)
+        {
+            var Permission = await _permissionDapperRepository.GetAsync(id);
+            return Permission;
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            await _repository.DeleteAsync(id);
+            await _permissionDapperRepository.DeleteAsync(id);
         }
 
         public async Task UpdateAsync(Guid id, CreateUpdatePermissionDto input)
         {
-            var permission = await _repository.GetAsync(id);
-
-            permission.Name = input.Name;
-            permission.InvoicePermision = input.InvoicePermision;
-            permission.PerPermission = input.PerPermission;
-            permission.UserPermission = input.UserPermission;
-            permission.BranchPermission = input.BranchPermission;
-            permission.CustomerPermission = input.CustomerPermission;
-
-            await _repository.UpdateAsync(permission);
+            await _permissionDapperRepository.UpdateAsync(id, input);
         }
 
-        public async Task<PagedResultDto<PermissionDto>> GetListAsync(PermissionPageDto input)
+        /*public async Task<PagedResultDto<PermissionDto>> GetListAsync(PermissionPageDto input)
         {
             var keyword = input.Keyword;
             var query = _repository.AsNoTracking()
@@ -92,7 +66,7 @@ namespace Hieu.FinalProject.Access
                 TotalCount = await query.CountAsync(),
                 Items = currencies
             };
-        }
+        }*/
         /* .PageBy(input.SkipCount, input.MaxResultCount).ToListAsync();
 
          Tìm hiểu thêm phần Comment*/

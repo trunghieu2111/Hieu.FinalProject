@@ -4,6 +4,7 @@ namespace Hieu.FinalProject.Customers
 {
     public class Customer : Entity<long>
     {
+        public string CustomerId { set; get; }
         public string TaxCode { set; get; }
         public string Address { set; get; }
         public string Name { set; get; }

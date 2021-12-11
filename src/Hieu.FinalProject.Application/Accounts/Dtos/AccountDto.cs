@@ -15,6 +15,6 @@ namespace Hieu.FinalProject.Accounts.Dtos
         public string Phone { set; get; }
         public string Acc { set; get; }
         public string Pass { set; get; }
-        public Permission permission { set; get; }
+        public Guid PermissionId { set; get; }
     }
 }

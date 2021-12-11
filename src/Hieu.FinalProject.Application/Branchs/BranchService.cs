@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,8 +18,9 @@ namespace Hieu.FinalProject.Branchs
         CreateUpdateBranchDto>, 
         IBranchService
     {
-
+    
         private readonly IRepository<Branch, Guid> _repository;
+
 
         public BranchService(IRepository<Branch, Guid> repository) : base(repository)
         {
@@ -45,10 +47,10 @@ namespace Hieu.FinalProject.Branchs
                              x => x.NameBranch.Contains(keyword)
                              || x.Address.Contains(keyword)
                              || x.MST.Contains(keyword)
-                             || x.URL.Contains(keyword)) 
+                             || x.URL.Contains(keyword))
                 ;
             var currencies = await query.Select
-                (x => ObjectMapper.Map<Branch, BranchDto>(x)).PageBy(input.SkipCount, input.MaxResultCount).ToListAsync();
+                (x => ObjectMapper.Map<Branch, BranchDto>(x)).ToListAsync();
             return new PagedResultDto<BranchDto>
             {
                 TotalCount = await query.CountAsync(),

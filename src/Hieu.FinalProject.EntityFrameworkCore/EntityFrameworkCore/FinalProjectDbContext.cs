@@ -1,6 +1,9 @@
 ﻿using Hieu.FinalProject.Accounts;
 using Hieu.FinalProject.Branchs;
 using Hieu.FinalProject.Customers;
+using Hieu.FinalProject.Invoice.InvoiceDetail;
+using Hieu.FinalProject.Invoice.InvoiceHeader;
+using Hieu.FinalProject.Invoice.InvoiceTaxBreak;
 using Hieu.FinalProject.Permissions;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -29,10 +32,12 @@ namespace Hieu.FinalProject.EntityFrameworkCore
         ITenantManagementDbContext
     {
         public DbSet<Branch> Branchs { get; set; }
-
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<InvoiceHeader> InvoiceHeaders { get; set; }
+        public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+        public DbSet<InvoiceTaxBreak> InvoiceTaxBreaks { get; set; }
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
         #region Entities from the modules
 
@@ -107,6 +112,27 @@ namespace Hieu.FinalProject.EntityFrameworkCore
             builder.Entity<Customer>(b =>
             {
                 b.ToTable(FinalProjectConsts.DbTablePrefix + "Customers", FinalProjectConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                //...
+            });
+
+            builder.Entity<InvoiceHeader>(b =>
+            {
+                b.ToTable(FinalProjectConsts.DbTablePrefix + "InvoiceHeaders", FinalProjectConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                //...
+            });
+
+            builder.Entity<InvoiceDetail>(b =>
+            {
+                b.ToTable(FinalProjectConsts.DbTablePrefix + "InvoiceDetails", FinalProjectConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                //...
+            });
+
+            builder.Entity<InvoiceTaxBreak>(b =>
+            {
+                b.ToTable(FinalProjectConsts.DbTablePrefix + "InvoiceTaxBreaks", FinalProjectConsts.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props
                 //...
             });

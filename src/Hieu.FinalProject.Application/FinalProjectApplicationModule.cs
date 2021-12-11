@@ -1,4 +1,5 @@
 ﻿using Hieu.FinalProject.Access.Repositories;
+using Hieu.FinalProject.Invoice.InvoiceHeader.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
@@ -32,7 +33,9 @@ namespace Hieu.FinalProject
                 options.AddMaps<FinalProjectApplicationModule>();
             });
 
-            //context.Services.AddScoped<IPermissionDapperRepository, PermissionDapperRepository>();
+            context.Services.AddScoped<IPermissionDapperRepository, PermissionDapperRepository>();
+            context.Services.AddScoped<IInvoiceHeaderDapperRepository, InvoiceHeaderDapperRepository>();
+
         }
     }
 }

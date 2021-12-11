@@ -6,10 +6,10 @@ namespace Hieu.FinalProject.Access
     public class PermissionDto : AuditedEntityDto<Guid>
     {
         public string Name { set; get; }
-        public string UserPermission { set; get; }
-        public string BranchPermission { set; get; }
-        public string CustomerPermission { set; get; }
-        public string PerPermission { set; get; }
-        public string InvoicePermision { set; get; }
+        public bool UserPermission { set; get; }
+        public bool BranchPermission { set; get; }
+        public bool CustomerPermission { set; get; }
+        public bool PerPermission { set; get; }
+        public bool InvoicePermision { set; get; }
     }
 }

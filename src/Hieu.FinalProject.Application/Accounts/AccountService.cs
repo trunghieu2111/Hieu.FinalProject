@@ -1,9 +1,7 @@
 ﻿using Hieu.FinalProject.Accounts.Dtos;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -11,7 +9,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Hieu.FinalProject.Accounts
 {
-    public class AccountService : CrudAppService<
+    public class MyAccountService : CrudAppService<
         Account,
         AccountDto,
         long,
@@ -20,25 +18,40 @@ namespace Hieu.FinalProject.Accounts
         IAccountService
     {
         private readonly IRepository<Account, long> _repository;
-        public AccountService(IRepository<Account, long> repository) : base(repository)
+        public MyAccountService(IRepository<Account, long> repository) : base(repository)
         {
             _repository = repository;
 
         }
 
-        public override Task<AccountDto> CreateAsync(CreateUpdateAccountDto input)
+        public override async Task<AccountDto> CreateAsync(CreateUpdateAccountDto input)
         {
-            return base.CreateAsync(input);
+            var account = new Account
+            {
+                Name = input.Name,
+                Email = input.Email,
+                Phone = input.Phone,
+                Acc = input.Acc,
+                Pass = input.Pass,
+                PermissionId = input.PermissionId
+
+            };
+
+            await _repository.InsertAsync(account);
+            return ObjectMapper.Map<Account, AccountDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
         }
 
-        public override Task DeleteAsync(long id)
+        public override async Task DeleteAsync(long id)
         {
-            return base.DeleteAsync(id);
+            await _repository.DeleteAsync(id);
         }
 
-        public override Task<AccountDto> GetAsync(long id)
+        //[HttpGet("{id}")]
+        public override async Task<AccountDto> GetAsync(long id)
         {
-            return base.GetAsync(id);
+            var query = await _repository.FirstOrDefaultAsync(x => x.Id == id);
+            return ObjectMapper.Map<Account, AccountDto>(query);
+            /*return await _repository.GetAsync(id);*/
         }
 
         public override async Task<PagedResultDto<AccountDto>> GetListAsync(AccountPageDto input)
@@ -52,7 +65,7 @@ namespace Hieu.FinalProject.Accounts
                              || x.Acc.Contains(keyword))
                 ;
             var currencies = await query.Select
-                (x => ObjectMapper.Map<Account, AccountDto>(x)).PageBy(input.SkipCount, input.MaxResultCount).ToListAsync();
+                (x => ObjectMapper.Map<Account, AccountDto>(x)).ToListAsync();
             return new PagedResultDto<AccountDto>
             {
                 TotalCount = await query.CountAsync(),
@@ -60,9 +73,19 @@ namespace Hieu.FinalProject.Accounts
             };
         }
 
-        public override Task<AccountDto> UpdateAsync(long id, CreateUpdateAccountDto input)
+        public override async Task<AccountDto> UpdateAsync(long id, CreateUpdateAccountDto input)
         {
-            return base.UpdateAsync(id, input);
+            var account = await _repository.GetAsync(id);
+
+            account.Name = input.Name;
+            account.Email = input.Email;
+            account.Phone = input.Phone;
+            account.Acc = input.Acc;
+            account.Pass = input.Pass;
+            account.PermissionId = input.PermissionId;
+
+            await _repository.UpdateAsync(account);
+            return ObjectMapper.Map<Account, AccountDto>(account);
         }
     }
 }
