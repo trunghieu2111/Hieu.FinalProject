@@ -1,4 +1,5 @@
-﻿using Hieu.FinalProject.Invoice.InvoiceHeader.Dtos;
+﻿using Hieu.FinalProject.Invoice.InvoiceDetail;
+using Hieu.FinalProject.Invoice.InvoiceHeader.Dtos;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -8,10 +9,13 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
     public class InvoiceHeaderService : ApplicationService
     {
         private readonly IRepository<InvoiceHeader, long> _repository;
+        private readonly IRepository<InvoiceDetailEntity, long> _invoiceDetailRepos;
 
-        public InvoiceHeaderService(IRepository<InvoiceHeader, long> repository)
+        public InvoiceHeaderService(IRepository<InvoiceHeader, long> repository,
+                                    IRepository<InvoiceDetailEntity, long> invoiceDetailRepos)
         {
             _repository = repository;
+            _invoiceDetailRepos = invoiceDetailRepos;
         }
 
         public async Task<InvoiceHeaderDto> CreateAsync(InvoiceHeaderDto input)

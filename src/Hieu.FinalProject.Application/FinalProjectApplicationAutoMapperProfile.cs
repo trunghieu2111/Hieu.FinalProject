@@ -34,7 +34,7 @@ namespace Hieu.FinalProject
             //ReverseMap 2 chiều
             CreateMap<CreateUpdateCustomerDto, Customer>().ReverseMap();
 
-            CreateMap<InvoiceDetail, InvoiceDetailDto>().ReverseMap();
+            CreateMap<InvoiceDetailEntity, InvoiceDetailDto>().ReverseMap();
             //CreateMap<CreateUpdateInvoiceDetailDto, InvoiceDetail>().ReverseMap();
 
             CreateMap<InvoiceHeader, InvoiceHeaderDto>().ReverseMap();

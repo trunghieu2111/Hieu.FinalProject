@@ -1,8 +1,11 @@
-﻿using Volo.Abp.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+using Volo.Abp.Domain.Entities;
 
 namespace Hieu.FinalProject.Invoice.InvoiceDetail
 {
-    public class InvoiceDetail : Entity<long>
+    [Table("InvoiceDetail")]
+    public class InvoiceDetailEntity : Entity<long>
     {
         public long InvoiceId { get; set; }
         public string NameProduct { set; get; }
