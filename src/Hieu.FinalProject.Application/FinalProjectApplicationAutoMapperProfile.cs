@@ -41,7 +41,7 @@ namespace Hieu.FinalProject
             //ReverseMap 2 chiều
             //CreateMap<CreateUpdateInvoiceHeaderDto, InvoiceHeader>().ReverseMap();
 
-            CreateMap<InvoiceTaxBreak, InvoiceTaxBreakDto>().ReverseMap();
+            CreateMap<InvoiceTaxBreakEntity, InvoiceTaxBreakDto>().ReverseMap();
             //CreateMap<CreateUpdateInvoiceTaxBreakDto, InvoiceTaxBreak>().ReverseMap();
         }
     }

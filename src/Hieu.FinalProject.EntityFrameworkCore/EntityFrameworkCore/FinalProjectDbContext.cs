@@ -37,7 +37,7 @@ namespace Hieu.FinalProject.EntityFrameworkCore
         public DbSet<Customer> Customers { get; set; }
         public DbSet<InvoiceHeader> InvoiceHeaders { get; set; }
         public DbSet<InvoiceDetailEntity> InvoiceDetails { get; set; }
-        public DbSet<InvoiceTaxBreak> InvoiceTaxBreaks { get; set; }
+        public DbSet<InvoiceTaxBreakEntity> InvoiceTaxBreaks { get; set; }
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
         #region Entities from the modules
 
@@ -130,7 +130,7 @@ namespace Hieu.FinalProject.EntityFrameworkCore
                 //...
             });
 
-            builder.Entity<InvoiceTaxBreak>(b =>
+            builder.Entity<InvoiceTaxBreakEntity>(b =>
             {
                 b.ToTable(FinalProjectConsts.DbTablePrefix + "InvoiceTaxBreaks", FinalProjectConsts.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props

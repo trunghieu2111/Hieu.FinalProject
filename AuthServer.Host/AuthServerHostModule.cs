@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
-
-using StackExchange.Redis;
 
 using Volo.Abp;
 using Volo.Abp.Account;
@@ -71,10 +68,10 @@ namespace AuthServer.Host
                 options.Languages.Add(new LanguageInfo("en", "en", "English"));
             });
 
-            context.Services.AddStackExchangeRedisCache(options =>
+            /*context.Services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = configuration["Redis:Configuration"];
-            });
+            });*/
 
             Configure<AbpAuditingOptions>(options =>
             {
@@ -83,9 +80,9 @@ namespace AuthServer.Host
             });
 
             //TODO: ConnectionMultiplexer.Connect call has problem since redis may not be ready when this service has started!
-            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-            context.Services.AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "MsDemo-DataProtection-Keys");
+            //var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            //context.Services.AddDataProtection()
+            //    .PersistKeysToStackExchangeRedis(redis, "MsDemo-DataProtection-Keys");
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
