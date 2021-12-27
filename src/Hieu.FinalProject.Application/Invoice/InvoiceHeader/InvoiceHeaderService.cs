@@ -3,6 +3,7 @@ using Hieu.FinalProject.Invoice.InvoiceDetail;
 using Hieu.FinalProject.Invoice.InvoiceHeader.Dtos;
 using Hieu.FinalProject.Invoice.InvoiceTaxBreak;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.ObjectMapping;
 
 namespace Hieu.FinalProject.Invoice.InvoiceHeader
 {
@@ -155,8 +157,10 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                 /*throw new UserFriendlyException("Không được trống!");*/
             }
 
+
             foreach (var inputItem in input.InvoiceDetails)
             {
+                //thêm mới 
                 if(inputItem.Id == 0)
                 {
                     var invoiceDetail = new InvoiceDetailEntity
@@ -176,6 +180,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                     };
                     await _invoiceDetailRepos.InsertAsync(invoiceDetail);
                 }
+                //sửa
                 else if (inputItem.Id != 0) {
                     var invoiceDetailEntity = await _invoiceDetailRepos.FirstOrDefaultAsync(x => x.Id == inputItem.Id);
                     if (invoiceDetailEntity == null)
@@ -197,10 +202,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 
                     await _invoiceDetailRepos.UpdateAsync(invoiceDetailEntity);
                 }
-                else
-                {
-
-                }
+                
                 /*var invoiceDetailEntity = await _invoiceDetailRepos.FirstOrDefaultAsync(x => x.Id == inputItem.Id);
                 if (invoiceDetailEntity == null)
                 {
@@ -221,7 +223,115 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 
                 await _invoiceDetailRepos.UpdateAsync(invoiceDetailEntity);*/
             }
+            //xóa InvoiceDetail
 
+            var LengthInvoiceDetailDto = 0;
+            foreach (var inputItem in input.InvoiceDetails)
+            {
+                LengthInvoiceDetailDto += 1;
+            }
+
+            await UnitOfWorkManager.Current.SaveChangesAsync();
+
+            var invoiceDetailUpdates = from invoiceDetail in _invoiceDetailRepos
+                              where invoiceDetail.InvoiceId == id
+                              select invoiceDetail;
+            var LengthInvoiceDetail = 0;
+
+            foreach (var ItemEntity in invoiceDetailUpdates)
+            {
+                LengthInvoiceDetail += 1;
+            }
+
+            if(LengthInvoiceDetailDto < LengthInvoiceDetail)
+            {
+                var ItemMapper = ObjectMapper.Map<List<InvoiceDetailDto>, List<InvoiceDetailEntity>>(input.InvoiceDetails).Select(x=>x.Id);
+                try
+                {
+                    var except = invoiceDetailUpdates.Where(x=>!ItemMapper.Contains(x.Id)).ToList();
+                    await _invoiceDetailRepos.DeleteManyAsync(except);
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+                
+            }
+
+            //Update TaxBreak
+            if (!input.InvoiceTaxBreaks.Any())
+            {
+                /*throw new UserFriendlyException("Không được trống!");*/
+            }
+
+
+            foreach (var inputItem in input.InvoiceTaxBreaks)
+            {
+                //thêm mới 
+                if (inputItem.Id == 0)
+                {
+                    var invoiceTaxBreak = new InvoiceTaxBreakEntity
+                    {
+                        InvoiceId = inputItem.InvoiceId,
+                        NameTaxSell = inputItem.NameTaxSell,
+                        PercentTaxSell = inputItem.PercentTaxSell,
+                        MoneyTaxSell = inputItem.MoneyTaxSell
+
+                    };
+                    await _invoiceTaxBreakRepos.InsertAsync(invoiceTaxBreak);
+                }
+                //sửa
+                else if (inputItem.Id != 0)
+                {
+                    var invoiceTaxBreakEntity = await _invoiceTaxBreakRepos.FirstOrDefaultAsync(x => x.Id == inputItem.Id);
+                    if (invoiceTaxBreakEntity == null)
+                    {
+                        continue;
+                        //nhảy ra rồi lặp lại.
+                    }
+                    invoiceTaxBreakEntity.InvoiceId = inputItem.InvoiceId;
+                    invoiceTaxBreakEntity.NameTaxSell = inputItem.NameTaxSell;
+                    invoiceTaxBreakEntity.PercentTaxSell = inputItem.PercentTaxSell;
+                    invoiceTaxBreakEntity.MoneyTaxSell = inputItem.MoneyTaxSell;
+
+                    await _invoiceTaxBreakRepos.UpdateAsync(invoiceTaxBreakEntity);
+                }
+
+            }
+            //xóa InvoiceDetail
+
+            /*var LengthInvoiceTaxBreakDto = 0;
+            foreach (var inputItem in input.InvoiceTaxBreaks)
+            {
+                LengthInvoiceTaxBreakDto += 1;
+            }
+
+            await UnitOfWorkManager.Current.SaveChangesAsync();
+
+            var invoiceTaxBreakUpdates = from invoiceTaxBreak in _invoiceTaxBreakRepos
+                                       where invoiceTaxBreak.InvoiceId == id
+                                       select invoiceTaxBreak;
+            var LengthInvoiceTaxBreak = 0;
+
+            foreach (var ItemEntity in invoiceTaxBreakUpdates)
+            {
+                LengthInvoiceTaxBreak += 1;
+            }
+
+            if (LengthInvoiceTaxBreakDto < LengthInvoiceTaxBreak)
+            {
+                var ItemMapper = ObjectMapper.Map<List<InvoiceTaxBreakDto>, List<InvoiceTaxBreakEntity>>(input.InvoiceTaxBreaks).Select(x => x.Id);
+                try
+                {
+                    var except = invoiceTaxBreakUpdates.Where(x => !ItemMapper.Contains(x.Id)).ToList();
+                    await _invoiceTaxBreakRepos.DeleteManyAsync(except);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }*/
 
             return ObjectMapper.Map<InvoiceHeader, InvoiceHeaderDto>(invoiceHeaderID); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
         }
