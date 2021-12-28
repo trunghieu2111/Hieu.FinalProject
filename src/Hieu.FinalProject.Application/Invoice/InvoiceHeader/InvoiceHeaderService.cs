@@ -226,12 +226,18 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
             //xóa InvoiceDetail
 
             var LengthInvoiceDetailDto = 0;
+            var invoiceDetailsDto = new List<InvoiceDetailDto>();
             foreach (var inputItem in input.InvoiceDetails)
             {
-                LengthInvoiceDetailDto += 1;
+                //lấy ra những phần tử Dto sửa thôi.
+                if(inputItem.Id != 0) {
+                    LengthInvoiceDetailDto += 1;
+                    invoiceDetailsDto.Add(inputItem);
+                }
+                
             }
 
-            await UnitOfWorkManager.Current.SaveChangesAsync();
+            //await UnitOfWorkManager.Current.SaveChangesAsync();
 
             var invoiceDetailUpdates = from invoiceDetail in _invoiceDetailRepos
                               where invoiceDetail.InvoiceId == id
@@ -245,7 +251,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 
             if(LengthInvoiceDetailDto < LengthInvoiceDetail)
             {
-                var ItemMapper = ObjectMapper.Map<List<InvoiceDetailDto>, List<InvoiceDetailEntity>>(input.InvoiceDetails).Select(x=>x.Id);
+                var ItemMapper = ObjectMapper.Map<List<InvoiceDetailDto>, List<InvoiceDetailEntity>>(invoiceDetailsDto).Select(x=>x.Id);
                 try
                 {
                     var except = invoiceDetailUpdates.Where(x=>!ItemMapper.Contains(x.Id)).ToList();
@@ -300,17 +306,24 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
             }
             //xóa InvoiceDetail
 
-            /*var LengthInvoiceTaxBreakDto = 0;
+            var LengthInvoiceTaxBreakDto = 0;
+            var invoiceTaxBreaksDto = new List<InvoiceTaxBreakDto>();
             foreach (var inputItem in input.InvoiceTaxBreaks)
             {
-                LengthInvoiceTaxBreakDto += 1;
+                //lấy ra những phần tử Dto sửa thôi.
+                if (inputItem.Id != 0)
+                {
+                    LengthInvoiceTaxBreakDto += 1;
+                    invoiceTaxBreaksDto.Add(inputItem);
+                }
+
             }
 
-            await UnitOfWorkManager.Current.SaveChangesAsync();
+            //await UnitOfWorkManager.Current.SaveChangesAsync();
 
             var invoiceTaxBreakUpdates = from invoiceTaxBreak in _invoiceTaxBreakRepos
-                                       where invoiceTaxBreak.InvoiceId == id
-                                       select invoiceTaxBreak;
+                                         where invoiceTaxBreak.InvoiceId == id
+                                         select invoiceTaxBreak;
             var LengthInvoiceTaxBreak = 0;
 
             foreach (var ItemEntity in invoiceTaxBreakUpdates)
@@ -320,7 +333,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 
             if (LengthInvoiceTaxBreakDto < LengthInvoiceTaxBreak)
             {
-                var ItemMapper = ObjectMapper.Map<List<InvoiceTaxBreakDto>, List<InvoiceTaxBreakEntity>>(input.InvoiceTaxBreaks).Select(x => x.Id);
+                var ItemMapper = ObjectMapper.Map<List<InvoiceTaxBreakDto>, List<InvoiceTaxBreakEntity>>(invoiceTaxBreaksDto).Select(x => x.Id);
                 try
                 {
                     var except = invoiceTaxBreakUpdates.Where(x => !ItemMapper.Contains(x.Id)).ToList();
@@ -331,7 +344,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                     throw ex;
                 }
 
-            }*/
+            }
 
             return ObjectMapper.Map<InvoiceHeader, InvoiceHeaderDto>(invoiceHeaderID); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
         }
