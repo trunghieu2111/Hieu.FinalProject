@@ -55,7 +55,7 @@ namespace AuthServer.Host
 
             Configure<AbpMultiTenancyOptions>(options =>
             {
-                //options.IsEnabled = MsDemoConsts.IsMultiTenancyEnabled;
+                options.IsEnabled = true;
             });
 
             Configure<AbpDbContextOptions>(options =>
@@ -94,6 +94,7 @@ namespace AuthServer.Host
             app.UseRouting();
             app.UseAbpRequestLocalization();
             app.UseAuthentication();
+            app.UseMultiTenancy();
             //if (MsDemoConsts.IsMultiTenancyEnabled)
             //{
             //    app.UseMultiTenancy();
