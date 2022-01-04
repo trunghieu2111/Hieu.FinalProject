@@ -34,7 +34,7 @@ namespace Hieu.FinalProject.DbMigrator
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(build =>
                 {
-                    build.AddJsonFile("appsettings.secrets.json", optional: true);
+                    build.AddJsonFile("appsettings.json", optional: true);
                 })
                 .ConfigureLogging((context, logging) => logging.ClearProviders())
                 .ConfigureServices((hostContext, services) =>
