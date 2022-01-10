@@ -375,7 +375,43 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
         public async Task<InvoiceHeaderDto> GetAsync(long id)
         {
             var query = await _repository.FirstOrDefaultAsync(x => x.Id == id);
-            return ObjectMapper.Map<InvoiceHeader, InvoiceHeaderDto>(query);
+            var invoiceHeaderDto = ObjectMapper.Map<InvoiceHeader, InvoiceHeaderDto>(query);
+
+            var invoiceDetailsDtos = new List<InvoiceDetailDto>();
+            invoiceDetailsDtos = await _invoiceDetailRepos.Where(x => x.InvoiceId == id).Select(x => ObjectMapper.Map<InvoiceDetailEntity, InvoiceDetailDto>(x)).ToListAsync();
+            var invoiceTaxBreakDtos = new List<InvoiceTaxBreakDto>();
+            invoiceTaxBreakDtos = await _invoiceTaxBreakRepos.Where(x => x.InvoiceId == id).Select(x => ObjectMapper.Map<InvoiceTaxBreakEntity, InvoiceTaxBreakDto>(x)).ToListAsync();
+
+            var invoiceHeaderDtos = new InvoiceHeaderDto();
+            invoiceHeaderDtos.InvoiceDetails = invoiceDetailsDtos;
+            invoiceHeaderDtos.InvoiceTaxBreaks = invoiceTaxBreakDtos;
+
+            invoiceHeaderDtos.Id = id;
+            invoiceHeaderDtos.TaxCodeBuyer = invoiceHeaderDto.TaxCodeBuyer;
+            invoiceHeaderDtos.CompanyNameBuyer = invoiceHeaderDto.CompanyNameBuyer;
+            invoiceHeaderDtos.AddressBuyer = invoiceHeaderDto.AddressBuyer;
+            invoiceHeaderDtos.TaxCodeSeller = invoiceHeaderDto.TaxCodeSeller;
+            invoiceHeaderDtos.CustomerIdSeller = invoiceHeaderDto.CustomerIdSeller;
+            invoiceHeaderDtos.CompanyNameSeller = invoiceHeaderDto.CompanyNameSeller;
+            invoiceHeaderDtos.FulNameSeller = invoiceHeaderDto.FulNameSeller;
+            invoiceHeaderDtos.EmailSeller = invoiceHeaderDto.EmailSeller;
+            invoiceHeaderDtos.AddressSeller = invoiceHeaderDto.AddressSeller;
+            invoiceHeaderDtos.BankNumberSeller = invoiceHeaderDto.BankNumberSeller;
+            invoiceHeaderDtos.NameBankSeller = invoiceHeaderDto.NameBankSeller;
+            invoiceHeaderDtos.InvoiceNumber = invoiceHeaderDto.InvoiceNumber;
+            invoiceHeaderDtos.InvoiceForm = invoiceHeaderDto.InvoiceForm;
+            invoiceHeaderDtos.InvoiceSign = invoiceHeaderDto.InvoiceSign;
+            invoiceHeaderDtos.InvoiceDay = invoiceHeaderDto.InvoiceDay;
+            invoiceHeaderDtos.Payments = invoiceHeaderDto.Payments;
+            invoiceHeaderDtos.InvoiceNote = invoiceHeaderDto.InvoiceNote;
+            invoiceHeaderDtos.TotalDiscountBeforeTax = invoiceHeaderDto.TotalDiscountBeforeTax;
+            invoiceHeaderDtos.TotalDiscountAfterTax = invoiceHeaderDto.TotalDiscountAfterTax;
+            invoiceHeaderDtos.PercentDiscountAfterTax = invoiceHeaderDto.PercentDiscountAfterTax;
+            invoiceHeaderDtos.TotalProduct = invoiceHeaderDto.TotalProduct;
+            invoiceHeaderDtos.TotalTax = invoiceHeaderDto.TotalTax;
+            invoiceHeaderDtos.TotalPay = invoiceHeaderDto.TotalPay;
+
+            return invoiceHeaderDtos;
         }
 
         public async Task<PagedResultDto<InvoiceHeaderDto>> GetListAsync(InvoiceHeaderPageDto input)
