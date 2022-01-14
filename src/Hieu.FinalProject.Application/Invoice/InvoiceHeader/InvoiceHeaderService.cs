@@ -165,7 +165,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                 {
                     var invoiceDetail = new InvoiceDetailEntity
                     {
-                        InvoiceId = inputItem.InvoiceId,
+                        InvoiceId = id,
                         NameProduct = inputItem.NameProduct,
                         ProductId = inputItem.ProductId,
                         Content = inputItem.Content,
@@ -188,7 +188,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                         continue;
                         //nhảy ra rồi lặp lại.
                     }
-                    invoiceDetailEntity.InvoiceId = inputItem.InvoiceId;
+                    invoiceDetailEntity.InvoiceId = id;
                     invoiceDetailEntity.NameProduct = inputItem.NameProduct;
                     invoiceDetailEntity.ProductId = inputItem.ProductId;
                     invoiceDetailEntity.Content = inputItem.Content;
@@ -278,7 +278,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                 {
                     var invoiceTaxBreak = new InvoiceTaxBreakEntity
                     {
-                        InvoiceId = inputItem.InvoiceId,
+                        InvoiceId = id,
                         NameTaxSell = inputItem.NameTaxSell,
                         PercentTaxSell = inputItem.PercentTaxSell,
                         MoneyTaxSell = inputItem.MoneyTaxSell
@@ -295,7 +295,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                         continue;
                         //nhảy ra rồi lặp lại.
                     }
-                    invoiceTaxBreakEntity.InvoiceId = inputItem.InvoiceId;
+                    invoiceTaxBreakEntity.InvoiceId = id;
                     invoiceTaxBreakEntity.NameTaxSell = inputItem.NameTaxSell;
                     invoiceTaxBreakEntity.PercentTaxSell = inputItem.PercentTaxSell;
                     invoiceTaxBreakEntity.MoneyTaxSell = inputItem.MoneyTaxSell;
@@ -304,7 +304,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                 }
 
             }
-            //xóa InvoiceDetail
+            //xóa InvoiceTax
 
             var LengthInvoiceTaxBreakDto = 0;
             var invoiceTaxBreaksDto = new List<InvoiceTaxBreakDto>();
