@@ -47,7 +47,7 @@ namespace Hieu.FinalProject
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(build =>
                 {
-                    build.AddJsonFile("appsettings.secrets.json", optional: true);
+                    build.AddJsonFile("appsettings.json", optional: true);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
