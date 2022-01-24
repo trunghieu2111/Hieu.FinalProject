@@ -1,0 +1,72 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@model Volo.Abp.Account.Web.Pages.Account.LoginModel
+@inject IHtmlLocalizer<AccountResource> L
+@inject Volo.Abp.Settings.ISettingProvider SettingProvider
+
+<div class="card mt-3 shadow-sm rounded">
+    <div class="card-body p-5">
+        @if (Model.EnableLocalLogin)
+        {
+            //<img style="height: auto; max-width: 100%;" src="~/images/bk.jpg" />
+            <img style="height: auto; max-width: 100%;" src="../Pages/Account/background-image/university.jpg" />
+            <div style="padding-top: 10px; text-align: center;">
+                <h5>
+                    Elearning <br />
+                    <small>Ha Noi University</small>
+                </h5>
+            </div>
+
+            <form method="post" class="mt-4">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
+                        <input placeholder="@L["UserNameOrEmailAddress"]" asp-for="LoginInput.UserNameOrEmailAddress" class="form-control" />
+                    </div>
+                    <span asp-validation-for="LoginInput.UserNameOrEmailAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </div>
+                        <input placeholder="@L["Password"]" asp-for="LoginInput.Password" class="form-control" />
+                    </div>
+                    <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
+                </div>
+                <abp-button type="submit" button-type="Success" name="Action" value="Login" class="btn-block btn-lg mt-3">@L["Login"] <i class="fas fa-sign-in-alt" style="font-size: 18px"></i></abp-button>
+                <div style="padding-top: 10px; padding-bottom: 15px; text-align: center;">
+                    <a style="text-decoration: none;" href="@Url.Page("./ForgotPassword", new {returnUrl = Model.ReturnUrl, returnUrlHash = Model.ReturnUrlHash})">@L["ForgotPassword"]</a>
+                </div>
+            </form>
+        }
+
+        @if (Model.VisibleExternalProviders.Any())
+        {
+            <div class="mt-2">
+                <h5>@L["OrLoginWith"]</h5>
+                <form asp-page="./Login" asp-page-handler="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" asp-route-returnUrlHash="@Model.ReturnUrlHash" method="post">
+                    @foreach (var provider in Model.VisibleExternalProviders)
+                    {
+                        <button type="submit" class="btn btn-primary m-1" name="provider" value="@provider.AuthenticationScheme" title="@L["LogInUsingYourProviderAccount", provider.DisplayName]">@provider.DisplayName</button>
+                    }
+                </form>
+            </div>
+        }
+
+        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
+        {
+            <div class="alert alert-warning">
+                <strong>@L["InvalidLoginRequest"]</strong>
+                @L["ThereAreNoLoginSchemesConfiguredForThisClient"]
+            </div>
+        }
+    </div>
+</div>
