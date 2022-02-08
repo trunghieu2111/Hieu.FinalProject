@@ -21,7 +21,6 @@ namespace Hieu.FinalProject.Branchs
         [Required]
         public string Address { set; get; }
 
-        [Required]
-        public string Status { set; get; }
+        public string ParentId { set; get; }
     }
 }
