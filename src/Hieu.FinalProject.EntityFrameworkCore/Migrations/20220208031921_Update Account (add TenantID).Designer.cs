@@ -4,15 +4,17 @@ using Hieu.FinalProject.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hieu.FinalProject.Migrations
 {
     [DbContext(typeof(FinalProjectDbContext))]
-    partial class FinalProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208031921_Update Account (add TenantID)")]
+    partial class UpdateAccountaddTenantID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,24 +51,6 @@ namespace Hieu.FinalProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppAccounts");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Accout_Role.Account_Role", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("AccountID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RoleID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppAccount_Roles");
                 });
 
             modelBuilder.Entity("Hieu.FinalProject.Branchs.Branch", b =>
@@ -292,50 +276,32 @@ namespace Hieu.FinalProject.Migrations
                     b.ToTable("AppInvoiceTaxBreaks");
                 });
 
-            modelBuilder.Entity("Hieu.FinalProject.Permission_Role.MyPermission_Role", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<Guid>("PermissionID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("RoleID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppMyPermission_Roles");
-                });
-
             modelBuilder.Entity("Hieu.FinalProject.Permissions.Permission", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("NamePermission")
+                    b.Property<bool>("BranchPermission")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CustomerPermission")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("InvoicePermision")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PerPermission")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("UserPermission")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.ToTable("AppPermissions");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Role.MyRole", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppMyRoles");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

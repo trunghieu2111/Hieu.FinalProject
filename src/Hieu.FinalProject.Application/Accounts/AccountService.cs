@@ -33,7 +33,7 @@ namespace Hieu.FinalProject.Accounts
                 Phone = input.Phone,
                 Acc = input.Acc,
                 Pass = input.Pass,
-                PermissionId = input.PermissionId
+                TenantId = input.TenantId
 
             };
 
@@ -82,7 +82,7 @@ namespace Hieu.FinalProject.Accounts
             account.Phone = input.Phone;
             account.Acc = input.Acc;
             account.Pass = input.Pass;
-            account.PermissionId = input.PermissionId;
+            account.TenantId = input.TenantId;
 
             await _repository.UpdateAsync(account);
             return ObjectMapper.Map<Account, AccountDto>(account);

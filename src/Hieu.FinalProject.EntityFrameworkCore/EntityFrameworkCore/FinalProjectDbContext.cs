@@ -1,10 +1,13 @@
 ﻿using Hieu.FinalProject.Accounts;
+using Hieu.FinalProject.Accout_Role;
 using Hieu.FinalProject.Branchs;
 using Hieu.FinalProject.Customers;
 using Hieu.FinalProject.Invoice.InvoiceDetail;
 using Hieu.FinalProject.Invoice.InvoiceHeader;
 using Hieu.FinalProject.Invoice.InvoiceTaxBreak;
+using Hieu.FinalProject.Permission_Role;
 using Hieu.FinalProject.Permissions;
+using Hieu.FinalProject.Role;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -34,6 +37,9 @@ namespace Hieu.FinalProject.EntityFrameworkCore
         public DbSet<Branch> Branchs { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<MyPermission_Role> MyPermission_Roles { get; set; }
+        public DbSet<MyRole> MyRoles { get; set; }
+        public DbSet<Account_Role> Account_Roles { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<InvoiceHeader> InvoiceHeaders { get; set; }
         public DbSet<InvoiceDetailEntity> InvoiceDetails { get; set; }
@@ -91,6 +97,27 @@ namespace Hieu.FinalProject.EntityFrameworkCore
             builder.Entity<Branch>(b =>
             {
                 b.ToTable(FinalProjectConsts.DbTablePrefix + "Branchs", FinalProjectConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                //...
+            });
+
+            builder.Entity<MyPermission_Role>(b =>
+            {
+                b.ToTable(FinalProjectConsts.DbTablePrefix + "MyPermission_Roles", FinalProjectConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                //...
+            });
+
+            builder.Entity<MyRole>(b =>
+            {
+                b.ToTable(FinalProjectConsts.DbTablePrefix + "MyRoles", FinalProjectConsts.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+                //...
+            });
+
+            builder.Entity<Account_Role>(b =>
+            {
+                b.ToTable(FinalProjectConsts.DbTablePrefix + "Account_Roles", FinalProjectConsts.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props
                 //...
             });
