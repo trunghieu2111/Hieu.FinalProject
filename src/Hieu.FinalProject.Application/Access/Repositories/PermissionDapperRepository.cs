@@ -29,18 +29,13 @@ namespace Hieu.FinalProject.Access.Repositories
 
                 //vì khi thêm k thêm trường Id nên DTO chỉ hiểu là kiểu GUID chứ không tự sinh ra được ID, phải gán ID.
 
-                string insertQuery = @"INSERT INTO AppPermissions ([Id], [Name], [UserPermission], [BranchPermission], [CustomerPermission], [PerPermission], [InvoicePermision]) VALUES (@Id, @Name, @UserPermission, @BranchPermission, @CustomerPermission, @PerPermission, @InvoicePermision)";
+                string insertQuery = @"INSERT INTO AppPermissions ([Id], [NamePermission]) VALUES (@Id, @NamePermission)";
 
                 await connection.ExecuteAsync(insertQuery, permissionDto);
 
                 return new PermissionDto {
                     Id = permissionDto.Id,
-                    Name = permissionDto.Name,
-                    UserPermission = permissionDto.UserPermission,
-                    BranchPermission= permissionDto.BranchPermission,
-                    CustomerPermission = permissionDto.CustomerPermission,
-                    PerPermission = permissionDto.PerPermission,
-                    InvoicePermision= permissionDto.InvoicePermision
+                    NamePermission = permissionDto.NamePermission
                 };
             }
         }
@@ -56,7 +51,7 @@ namespace Hieu.FinalProject.Access.Repositories
                 }
                 else
                 {
-                    var query = await connection.QueryAsync<PermissionDto>("SELECT * FROM AppPermissions WHERE Name LIKE '%' + @NAME +'%' ", new { NAME = input.Keyword });
+                    var query = await connection.QueryAsync<PermissionDto>("SELECT * FROM AppPermissions WHERE NamePermission LIKE '%' + @NAME +'%' ", new { NAME = input.Keyword });
                     return query.ToList();
                 }
                 
@@ -89,9 +84,9 @@ namespace Hieu.FinalProject.Access.Repositories
             {
                 /*var query = await connection.QueryAsync<CreateUpdatePermissionDto>("SELECT * FROM AppPermissions WHERE Id = @ID", new { ID = id });
                 var permisstion = query.SingleOrDefault();*/
-                string insertQuery = @"UPDATE AppPermissions SET Name = @Name, UserPermission = @UserPermission, BranchPermission = @BranchPermission, CustomerPermission = @CustomerPermission, PerPermission = @PerPermission, InvoicePermision = @InvoicePermision WHERE Id = @ID";
+                string insertQuery = @"UPDATE AppPermissions SET NamePermission = @NamePermission WHERE Id = @ID";
 
-                await connection.ExecuteAsync(insertQuery, new { ID = id, Name = permissionDto.Name, UserPermission = permissionDto.UserPermission, BranchPermission = permissionDto.BranchPermission, CustomerPermission =permissionDto.CustomerPermission, PerPermission =permissionDto.PerPermission, InvoicePermision =permissionDto.InvoicePermision});
+                await connection.ExecuteAsync(insertQuery, new { ID = id, NamePermission = permissionDto.NamePermission});
             }
         }
     }

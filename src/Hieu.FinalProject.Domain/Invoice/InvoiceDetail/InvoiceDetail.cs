@@ -7,6 +7,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceDetail
     [Table("InvoiceDetail")]
     public class InvoiceDetailEntity : Entity<long>
     {
+        [ForeignKey("InvoiceHeader")]
         public long InvoiceId { get; set; }
         public string NameProduct { set; get; }
         public long ProductId { set; get; }
@@ -18,6 +19,6 @@ namespace Hieu.FinalProject.Invoice.InvoiceDetail
         public float PercentDiscountBeforeTax { set; get; }
         public float PercentMoney { set; get; }
         public double IntoMoney { set; get; }
-
+        public InvoiceHeader.InvoiceHeader InvoiceHeader { set; get; }
     }
 }

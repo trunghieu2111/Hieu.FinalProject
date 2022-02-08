@@ -4,15 +4,17 @@ using Hieu.FinalProject.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hieu.FinalProject.Migrations
 {
     [DbContext(typeof(FinalProjectDbContext))]
-    partial class FinalProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208145402_Update FK Acc Role")]
+    partial class UpdateFKAccRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

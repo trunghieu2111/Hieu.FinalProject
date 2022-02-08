@@ -4,15 +4,17 @@ using Hieu.FinalProject.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hieu.FinalProject.Migrations
 {
     [DbContext(typeof(FinalProjectDbContext))]
-    partial class FinalProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208110525_Update FK Per Role")]
+    partial class UpdateFKPerRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,10 +69,6 @@ namespace Hieu.FinalProject.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AccountID");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("AppAccount_Roles");
                 });
@@ -2268,25 +2266,6 @@ namespace Hieu.FinalProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Accout_Role.Account_Role", b =>
-                {
-                    b.HasOne("Hieu.FinalProject.Accounts.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Hieu.FinalProject.Role.MyRole", "MyRole")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("MyRole");
                 });
 
             modelBuilder.Entity("Hieu.FinalProject.Invoice.InvoiceDetail.InvoiceDetailEntity", b =>

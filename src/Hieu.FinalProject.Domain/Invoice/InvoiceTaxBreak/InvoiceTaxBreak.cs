@@ -11,9 +11,11 @@ namespace Hieu.FinalProject.Invoice.InvoiceTaxBreak
     [Table("InvoiceTaxBreak")]
     public class InvoiceTaxBreakEntity: Entity<long>
     {
+        [ForeignKey("InvoiceHeader")]
         public long InvoiceId { set; get; }
         public string NameTaxSell{set;get;}
         public int PercentTaxSell { set; get; }
         public double MoneyTaxSell { set; get; }
+        public InvoiceHeader.InvoiceHeader InvoiceHeader { set; get; }
     }
 }

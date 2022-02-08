@@ -4,15 +4,17 @@ using Hieu.FinalProject.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Hieu.FinalProject.Migrations
 {
     [DbContext(typeof(FinalProjectDbContext))]
-    partial class FinalProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208101335_Update FK InvoiceTaxBreaks")]
+    partial class UpdateFKInvoiceTaxBreaks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +50,6 @@ namespace Hieu.FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TenantId");
-
                     b.ToTable("AppAccounts");
                 });
 
@@ -68,10 +68,6 @@ namespace Hieu.FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountID");
-
-                    b.HasIndex("RoleID");
-
                     b.ToTable("AppAccount_Roles");
                 });
 
@@ -89,8 +85,8 @@ namespace Hieu.FinalProject.Migrations
                     b.Property<string>("NameBranch")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ParentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ParentId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("URL")
                         .HasColumnType("nvarchar(max)");
@@ -283,6 +279,9 @@ namespace Hieu.FinalProject.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long?>("InvoiceHeaderId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("InvoiceId")
                         .HasColumnType("bigint");
 
@@ -297,7 +296,7 @@ namespace Hieu.FinalProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex("InvoiceHeaderId");
 
                     b.ToTable("AppInvoiceTaxBreaks");
                 });
@@ -316,10 +315,6 @@ namespace Hieu.FinalProject.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PermissionID");
-
-                    b.HasIndex("RoleID");
 
                     b.ToTable("AppMyPermission_Roles");
                 });
@@ -2259,36 +2254,6 @@ namespace Hieu.FinalProject.Migrations
                     b.ToTable("AbpTenantConnectionStrings");
                 });
 
-            modelBuilder.Entity("Hieu.FinalProject.Accounts.Account", b =>
-                {
-                    b.HasOne("Hieu.FinalProject.Branchs.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Branch");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Accout_Role.Account_Role", b =>
-                {
-                    b.HasOne("Hieu.FinalProject.Accounts.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Hieu.FinalProject.Role.MyRole", "MyRole")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("MyRole");
-                });
-
             modelBuilder.Entity("Hieu.FinalProject.Invoice.InvoiceDetail.InvoiceDetailEntity", b =>
                 {
                     b.HasOne("Hieu.FinalProject.Invoice.InvoiceHeader.InvoiceHeader", "InvoiceHeader")
@@ -2304,30 +2269,9 @@ namespace Hieu.FinalProject.Migrations
                 {
                     b.HasOne("Hieu.FinalProject.Invoice.InvoiceHeader.InvoiceHeader", "InvoiceHeader")
                         .WithMany()
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InvoiceHeaderId");
 
                     b.Navigation("InvoiceHeader");
-                });
-
-            modelBuilder.Entity("Hieu.FinalProject.Permission_Role.MyPermission_Role", b =>
-                {
-                    b.HasOne("Hieu.FinalProject.Permissions.Permission", "Permission")
-                        .WithMany()
-                        .HasForeignKey("PermissionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Hieu.FinalProject.Role.MyRole", "MyRole")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MyRole");
-
-                    b.Navigation("Permission");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
