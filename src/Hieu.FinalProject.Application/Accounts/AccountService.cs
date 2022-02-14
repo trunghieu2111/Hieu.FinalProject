@@ -1,5 +1,7 @@
 ﻿using Hieu.FinalProject.Accounts.Dtos;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +56,23 @@ namespace Hieu.FinalProject.Accounts
             /*return await _repository.GetAsync(id);*/
         }
 
+        [HttpPost("api/app/login/account")]
+        public async Task<AccountDto> GetAccountLogin(AccountDto input)
+        {
+            var Acc = new AccountDto
+            {
+                Id = 0
+            };
+            foreach(var a in _repository)
+            {
+                if(a.TenantId == input.TenantId && a.Acc == input.Acc && a.Pass == input.Pass)
+                {
+                    Acc = ObjectMapper.Map<Account, AccountDto>(a);
+                    break;
+                }
+            }
+            return Acc;
+        }
         public override async Task<PagedResultDto<AccountDto>> GetListAsync(AccountPageDto input)
         {
             var keyword = input.Keyword;

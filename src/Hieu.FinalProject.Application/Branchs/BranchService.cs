@@ -63,6 +63,23 @@ namespace Hieu.FinalProject.Branchs
             return base.GetAsync(id);
         }
 
+        [HttpGet("api/app/login/branch/{taxcode}")]
+        public async Task<TaxCodeModel> GetBranch(string taxcode)
+        {
+            var tax = "0";
+            foreach(var tenant in _repository)
+            {
+                if(taxcode == tenant.MST)
+                {
+                    tax = tenant.Id.ToString();
+                    break;
+                }
+            }
+            return new TaxCodeModel {
+                Tax = tax
+            };
+        }
+
         public override Task<BranchDto> UpdateAsync(Guid id, CreateUpdateBranchDto input)
         {
             return base.UpdateAsync(id, input);

@@ -27,7 +27,7 @@
     <Folder Include="Access\Dtos\" />
     <Folder Include="Accounts\Repositories\" />
     <Folder Include="Customers\Repositories\" />
-    <Folder Include="Account_Role\" />
+    <Folder Include="Login\" />
   </ItemGroup>
 
 </Project>
