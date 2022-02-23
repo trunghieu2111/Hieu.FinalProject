@@ -14,7 +14,7 @@ namespace Hieu.FinalProject.Access.Repositories
 {
     public class PermissionDapperRepository : IPermissionDapperRepository
     {
-        private readonly string _connectionString;
+        /*private readonly string _connectionString;
         //private readonly IObjectMapper<FinalProjectApplicationModule> _objectMapper;
         public PermissionDapperRepository(IConfiguration configuration)
         {
@@ -56,7 +56,7 @@ namespace Hieu.FinalProject.Access.Repositories
                 }
                 
             }
-            /*var count = query.Count();*/
+            *//*var count = query.Count();*//*
         }
 
         public async Task<PermissionDto> GetAsync(Guid id)
@@ -82,12 +82,12 @@ namespace Hieu.FinalProject.Access.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                /*var query = await connection.QueryAsync<CreateUpdatePermissionDto>("SELECT * FROM AppPermissions WHERE Id = @ID", new { ID = id });
-                var permisstion = query.SingleOrDefault();*/
+                *//*var query = await connection.QueryAsync<CreateUpdatePermissionDto>("SELECT * FROM AppPermissions WHERE Id = @ID", new { ID = id });
+                var permisstion = query.SingleOrDefault();*//*
                 string insertQuery = @"UPDATE AppPermissions SET NamePermission = @NamePermission WHERE Id = @ID";
 
                 await connection.ExecuteAsync(insertQuery, new { ID = id, NamePermission = permissionDto.NamePermission});
             }
-        }
+        }*/
     }
 }

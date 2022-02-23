@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hieu.FinalProject.Access;
+using Hieu.FinalProject.Access.Dtos;
 using Hieu.FinalProject.Accounts;
 using Hieu.FinalProject.Accounts.Dtos;
 using Hieu.FinalProject.Branchs;
@@ -9,7 +9,8 @@ using Hieu.FinalProject.Invoice.InvoiceDetail;
 using Hieu.FinalProject.Invoice.InvoiceHeader;
 using Hieu.FinalProject.Invoice.InvoiceHeader.Dtos;
 using Hieu.FinalProject.Invoice.InvoiceTaxBreak;
-using Hieu.FinalProject.Permissions;
+using Hieu.FinalProject.Permission_Role;
+using Hieu.FinalProject.Role;
 
 namespace Hieu.FinalProject
 {
@@ -23,8 +24,8 @@ namespace Hieu.FinalProject
             CreateMap<Branch, BranchDto>().ReverseMap();
             CreateMap<CreateUpdateBranchDto, Branch>().ReverseMap();
 
-            CreateMap<Permission, PermissionDto>().ReverseMap();
-            CreateMap<CreateUpdatePermissionDto, Permission>().ReverseMap();
+            CreateMap<MyRole, MyRoleDto>().ReverseMap();
+            CreateMap<MyPermission_Role, MyPermissionRoleDto>().ReverseMap();
 
             CreateMap<Account, AccountDto>().ReverseMap();
             //ReverseMap 2 chiều

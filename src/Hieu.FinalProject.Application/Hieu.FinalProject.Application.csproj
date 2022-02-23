@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Access\Dtos\" />
     <Folder Include="Accounts\Repositories\" />
     <Folder Include="Customers\Repositories\" />
     <Folder Include="Login\" />
