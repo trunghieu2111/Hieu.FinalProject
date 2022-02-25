@@ -2,6 +2,7 @@
 using Hieu.FinalProject.Access.Dtos;
 using Hieu.FinalProject.Accounts;
 using Hieu.FinalProject.Accounts.Dtos;
+using Hieu.FinalProject.Accout_Role;
 using Hieu.FinalProject.Branchs;
 using Hieu.FinalProject.Customers;
 using Hieu.FinalProject.Customers.Dtos;
@@ -28,6 +29,8 @@ namespace Hieu.FinalProject
             CreateMap<MyPermission_Role, MyPermissionRoleDto>().ReverseMap();
 
             CreateMap<Account, AccountDto>().ReverseMap();
+            CreateMap<Account, AccountNewDto>().ReverseMap();
+            CreateMap<Account_Role, AccountRoleDto>().ReverseMap();
             //ReverseMap 2 chiều
             CreateMap<CreateUpdateAccountDto, Account>().ReverseMap();
 
