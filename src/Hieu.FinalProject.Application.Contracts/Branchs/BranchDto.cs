@@ -10,7 +10,7 @@ namespace Hieu.FinalProject.Branchs
         public string URL { set; get; }
         public string NameBranch { set; get; }
         public string Address { set; get; }
-        public string ParentId { set; get; }
+        public Guid ParentId { set; get; }
 
     }
 }
