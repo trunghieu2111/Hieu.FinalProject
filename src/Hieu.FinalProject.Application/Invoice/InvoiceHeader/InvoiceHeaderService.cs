@@ -34,6 +34,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
         {
             var invoiceHeader = new InvoiceHeader
             {
+                TenantId = input.TenantId,
                 TaxCodeBuyer = input.TaxCodeBuyer,
                 CompanyNameBuyer = input.CompanyNameBuyer,
                 AddressBuyer = input.AddressBuyer,
@@ -125,6 +126,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
         {
             var invoiceHeaderID = await _repository.GetAsync(id);
 
+            invoiceHeaderID.TenantId = input.TenantId;
             invoiceHeaderID.TaxCodeBuyer = input.TaxCodeBuyer;
             invoiceHeaderID.CompanyNameBuyer = input.CompanyNameBuyer;
             invoiceHeaderID.AddressBuyer = input.AddressBuyer;
@@ -387,6 +389,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
             invoiceHeaderDtos.InvoiceTaxBreaks = invoiceTaxBreakDtos;
 
             invoiceHeaderDtos.Id = id;
+            invoiceHeaderDtos.TenantId = invoiceHeaderDto.TenantId;
             invoiceHeaderDtos.TaxCodeBuyer = invoiceHeaderDto.TaxCodeBuyer;
             invoiceHeaderDtos.CompanyNameBuyer = invoiceHeaderDto.CompanyNameBuyer;
             invoiceHeaderDtos.AddressBuyer = invoiceHeaderDto.AddressBuyer;

@@ -12,8 +12,8 @@ namespace Hieu.FinalProject.Accounts
         public string Acc { set; get; }
         public string Pass { set; get; }
 
-        [ForeignKey("Branch")]
+        /*[ForeignKey("Branch")]*/
         public Guid TenantId { set; get; }
-        public Branchs.Branch Branch { set; get; }
+        /*public Branchs.Branch Branch { set; get; }*/
     }
 }

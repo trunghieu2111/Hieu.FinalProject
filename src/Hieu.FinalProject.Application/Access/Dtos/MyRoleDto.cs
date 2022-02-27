@@ -10,6 +10,7 @@ namespace Hieu.FinalProject.Access.Dtos
     {
         public long Id { set; get; }
         public string RoleName { set; get; }
+        public Guid TenantId { set; get; }
         public List<MyPermissionRoleDto> MyPermissionRoles { get; set; }
     }
     

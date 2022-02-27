@@ -31,6 +31,7 @@ namespace Hieu.FinalProject.Access
         {
             var myRole = new MyRole
             {
+                TenantId = input.TenantId,
                 RoleName = input.RoleName
             };
 
@@ -68,6 +69,7 @@ namespace Hieu.FinalProject.Access
             var myRole = await _myRoleRepos.GetAsync(id);
 
             myRole.RoleName = input.RoleName;
+            myRole.TenantId = input.TenantId;
 
             await _myRoleRepos.UpdateAsync(myRole);
             //update role_permission
@@ -189,6 +191,7 @@ namespace Hieu.FinalProject.Access
 
             myRoleDtos.Id = id;
             myRoleDtos.RoleName = myRoleDto.RoleName;
+            myRoleDtos.TenantId = myRoleDto.TenantId;
 
             return myRoleDtos;
         }

@@ -9,6 +9,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 {
     public class InvoiceHeader : Entity<long>
     {
+        public Guid TenantId { set; get; }
         public string TaxCodeBuyer { set; get; }
         public string CompanyNameBuyer { set; get; }
         public string AddressBuyer { set; get; }

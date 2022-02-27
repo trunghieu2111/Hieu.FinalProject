@@ -1,9 +1,11 @@
-﻿using Volo.Abp.Domain.Entities;
+﻿using System;
+using Volo.Abp.Domain.Entities;
 
 namespace Hieu.FinalProject.Customers
 {
     public class Customer : Entity<long>
     {
+        public Guid TenantId { set; get; }
         public string CustomerId { set; get; }
         public string TaxCode { set; get; }
         public string Address { set; get; }

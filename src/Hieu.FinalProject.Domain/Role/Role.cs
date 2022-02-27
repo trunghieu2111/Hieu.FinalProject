@@ -9,6 +9,7 @@ namespace Hieu.FinalProject.Role
 {
     public class MyRole : Entity<long>
     {
+        public Guid TenantId { set; get; }
         public string RoleName { set; get; }
     }
 }
