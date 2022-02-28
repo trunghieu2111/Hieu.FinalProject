@@ -7,6 +7,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader.Dtos
     {
         public long Id { set; get; }
         public Guid TenantId { set; get; }
+        public string PersonCreateUpdate { set; get; }
         public string TaxCodeBuyer { set; get; }
         public string CompanyNameBuyer { set; get; }
         public string AddressBuyer { set; get; }
