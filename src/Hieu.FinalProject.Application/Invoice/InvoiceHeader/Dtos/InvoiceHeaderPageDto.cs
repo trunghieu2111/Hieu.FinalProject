@@ -10,5 +10,6 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader.Dtos
     public class InvoiceHeaderPageDto : PagedAndSortedResultRequestDto
     {
         public string Keyword { set; get; }
+        public Guid TenantID { set; get; }
     }
 }

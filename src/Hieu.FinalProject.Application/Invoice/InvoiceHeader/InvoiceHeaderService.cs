@@ -419,8 +419,9 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 
         public async Task<PagedResultDto<InvoiceHeaderDto>> GetListAsync(InvoiceHeaderPageDto input)
         {
+            var invoiceParentId = _repository.Where(x => x.TenantId == input.TenantID);
             var keyword = input.Keyword;
-            var query = _repository.AsNoTracking()
+            var query = invoiceParentId.AsNoTracking()
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
                              x => x.FulNameSeller.Contains(keyword)

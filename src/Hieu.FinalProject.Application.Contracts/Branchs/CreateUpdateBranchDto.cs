@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Volo.Abp.Application.Dtos;
 
 namespace Hieu.FinalProject.Branchs
 {
@@ -21,6 +22,17 @@ namespace Hieu.FinalProject.Branchs
         [Required]
         public string Address { set; get; }
 
-        public string ParentId { set; get; }
+        public Guid ParentId { set; get; }
+        public AccountBranchDto AccountBranch { set; get; }
+    }
+
+    public class AccountBranchDto : AuditedEntityDto<long>
+    {
+        public string Name { set; get; }
+        public string Email { set; get; }
+        public string Phone { set; get; }
+        public string Acc { set; get; }
+        public string Pass { set; get; }
+        public Guid TenantId { set; get; }
     }
 }

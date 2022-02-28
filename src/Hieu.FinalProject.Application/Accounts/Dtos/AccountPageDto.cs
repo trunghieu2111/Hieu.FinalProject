@@ -10,5 +10,6 @@ namespace Hieu.FinalProject.Accounts.Dtos
     public class AccountPageDto : PagedAndSortedResultRequestDto
     {
         public string Keyword { set; get; }
+        public Guid TenantID { set; get; }
     }
 }

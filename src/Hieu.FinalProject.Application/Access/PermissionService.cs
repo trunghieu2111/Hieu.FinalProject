@@ -198,8 +198,9 @@ namespace Hieu.FinalProject.Access
 
         public async Task<PagedResultDto<MyRoleDto>> GetListAsync(MyRolePageDto input)
         {
+            var roleParentId = _myRoleRepos.Where(x => x.TenantId == input.TenantID);
             var keyword = input.Keyword;
-            var query = _myRoleRepos.AsNoTracking()
+            var query = roleParentId.AsNoTracking()
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
                              x => x.RoleName.Contains(keyword))

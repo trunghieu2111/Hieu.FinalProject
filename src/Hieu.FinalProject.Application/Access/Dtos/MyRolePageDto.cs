@@ -10,5 +10,6 @@ namespace Hieu.FinalProject.Access.Dtos
     public class MyRolePageDto: PagedAndSortedResultRequestDto
     {
         public string Keyword { set; get; }
+        public Guid TenantID { set; get; }
     }
 }

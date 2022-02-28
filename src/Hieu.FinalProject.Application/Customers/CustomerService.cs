@@ -44,20 +44,21 @@ namespace Hieu.FinalProject.Customers
 
         public override async Task<PagedResultDto<CustomerDto>> GetListAsync(CustomerPageDto input)
         {
+            var customerParentId = _repository.Where(x => x.TenantId == input.TenantID);
             var keyword = input.Keyword;
-            var query = _repository.AsNoTracking()
+            var query = customerParentId.AsNoTracking()
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
                              x => x.Name.Contains(keyword)
                              || x.Address.Contains(keyword)
                              || x.Daidienphapnhan.Contains(keyword))
                 ;
-            var currencies = await query.Select
+            var customers = await query.Select
                 (x => ObjectMapper.Map<Customer, CustomerDto>(x)).ToListAsync();
             return new PagedResultDto<CustomerDto>
             {
                 TotalCount = await query.CountAsync(),
-                Items = currencies
+                Items = customers
             };
         }
 

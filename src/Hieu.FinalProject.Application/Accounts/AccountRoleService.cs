@@ -183,8 +183,9 @@ namespace Hieu.FinalProject.Accounts
 
         public async Task<PagedResultDto<AccountNewDto>> GetListAsync(AccountPageDto input)
         {
+            var accountParentId = _accountRepos.Where(x => x.TenantId == input.TenantID);
             var keyword = input.Keyword;
-            var query = _accountRepos.AsNoTracking()
+            var query = accountParentId.AsNoTracking()
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
                              x => x.Name.Contains(keyword)
