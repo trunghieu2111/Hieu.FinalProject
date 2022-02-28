@@ -15,7 +15,7 @@ using Volo.Abp.ObjectMapping;
 
 namespace Hieu.FinalProject.Invoice.InvoiceHeader
 {
-    public class InvoiceHeaderService : ApplicationService
+    public class InvoiceHeaderService : ApplicationService 
     {
         private readonly IRepository<InvoiceHeader, long> _repository;
         private readonly IRepository<InvoiceDetailEntity, long> _invoiceDetailRepos;
