@@ -69,7 +69,6 @@ namespace Hieu.FinalProject.Access
             var myRole = await _myRoleRepos.GetAsync(id);
 
             myRole.RoleName = input.RoleName;
-            myRole.TenantId = input.TenantId;
 
             await _myRoleRepos.UpdateAsync(myRole);
             //update role_permission

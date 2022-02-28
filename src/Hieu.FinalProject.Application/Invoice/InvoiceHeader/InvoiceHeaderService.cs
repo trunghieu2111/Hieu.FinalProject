@@ -126,7 +126,6 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
         {
             var invoiceHeaderID = await _repository.GetAsync(id);
 
-            invoiceHeaderID.TenantId = input.TenantId;
             invoiceHeaderID.TaxCodeBuyer = input.TaxCodeBuyer;
             invoiceHeaderID.CompanyNameBuyer = input.CompanyNameBuyer;
             invoiceHeaderID.AddressBuyer = input.AddressBuyer;
@@ -424,7 +423,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
             var query = invoiceParentId.AsNoTracking()
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
-                             x => x.FulNameSeller.Contains(keyword)
+                             x => x.InvoiceNumber.ToString().Contains(keyword)
                              || x.CompanyNameSeller.Contains(keyword)
                              || x.TaxCodeSeller.Contains(keyword))
                 ;
