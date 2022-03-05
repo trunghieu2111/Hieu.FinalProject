@@ -11,6 +11,7 @@ using Hieu.FinalProject.Invoice.InvoiceHeader;
 using Hieu.FinalProject.Invoice.InvoiceHeader.Dtos;
 using Hieu.FinalProject.Invoice.InvoiceTaxBreak;
 using Hieu.FinalProject.Permission_Role;
+using Hieu.FinalProject.Permissions;
 using Hieu.FinalProject.Role;
 
 namespace Hieu.FinalProject
@@ -27,6 +28,7 @@ namespace Hieu.FinalProject
 
             CreateMap<MyRole, MyRoleDto>().ReverseMap();
             CreateMap<MyPermission_Role, MyPermissionRoleDto>().ReverseMap();
+            CreateMap<Permission, PermissionDto>().ReverseMap();
 
             CreateMap<Account, AccountDto>().ReverseMap();
             CreateMap<Account, AccountNewDto>().ReverseMap();

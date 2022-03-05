@@ -26,7 +26,65 @@ namespace Hieu.FinalProject.Accounts
 
         public async Task<AccountNewDto> CreateAsync(AccountNewDto input)
         {
-            var account = new Account
+            var flagAcc = 0;
+            foreach(var item in _accountRepos)
+            {
+                if(item.Acc == input.Acc && item.TenantId == input.TenantId)
+                {
+                    flagAcc = 1;
+                    break;
+                }
+            }
+
+            if(flagAcc == 0)
+            {
+                var account = new Account
+                {
+                    Name = input.Name,
+                    Email = input.Email,
+                    Phone = input.Phone,
+                    Acc = input.Acc,
+                    Pass = input.Pass,
+                    TenantId = input.TenantId
+                };
+
+                await _accountRepos.InsertAsync(account);
+
+                //lấy id của account
+                await UnitOfWorkManager.Current.SaveChangesAsync();
+
+                var idAccount = account.Id;
+
+                var accountRolesEntity = new List<Account_Role>();
+                if (!input.AccountRoles.Any())
+                {
+                    // trả ra lỗi vì không được để trống
+                }
+
+                foreach (var item in input.AccountRoles)
+                {
+                    var accountRole = new Account_Role
+                    {
+                        RoleID = item.RoleID,
+                        AccountID = idAccount
+                    };
+
+                    accountRolesEntity.Add(accountRole);
+                }
+
+                await _accountRoleRepos.InsertManyAsync(accountRolesEntity);
+
+                return ObjectMapper.Map<Account, AccountNewDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
+            }
+            else
+            {
+                var account = new Account
+                {
+                   Acc  = "0"
+                };
+                return ObjectMapper.Map<Account, AccountNewDto>(account);
+            }
+            /*var account = new Account
             {
                 Name = input.Name,
                 Email = input.Email,
@@ -62,7 +120,7 @@ namespace Hieu.FinalProject.Accounts
 
             await _accountRoleRepos.InsertManyAsync(accountRolesEntity);
 
-            return ObjectMapper.Map<Account, AccountNewDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
+            return ObjectMapper.Map<Account, AccountNewDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.*/
         }
 
         public async Task<AccountNewDto> UpdateAsync(long id, AccountNewDto input)
