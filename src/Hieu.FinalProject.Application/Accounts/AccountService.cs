@@ -73,6 +73,29 @@ namespace Hieu.FinalProject.Accounts
             }
             return Acc;
         }
+
+        [HttpGet("api/app/login/checkstatus")]
+        public async Task<AccountDto> GetAccountLoginCheckStatus(long id)
+        {
+            var Acc = new AccountDto
+            {
+                Id = 0
+            };
+            foreach (var a in _repository)
+            {
+                if (id == a.Id)
+                {
+                    if (a.LockStatus == true)
+                    {
+                        Acc = ObjectMapper.Map<Account, AccountDto>(a);
+                        break;
+                    }
+                    
+                }
+            }
+            return Acc;
+        }
+
         public override async Task<PagedResultDto<AccountDto>> GetListAsync(AccountPageDto input)
         {
             var keyword = input.Keyword;

@@ -1,5 +1,6 @@
 ﻿using Hieu.FinalProject.Accounts.Dtos;
 using Hieu.FinalProject.Accout_Role;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,8 @@ namespace Hieu.FinalProject.Accounts
                     Phone = input.Phone,
                     Acc = input.Acc,
                     Pass = input.Pass,
-                    TenantId = input.TenantId
+                    TenantId = input.TenantId,
+                    LockStatus = true
                 };
 
                 await _accountRepos.InsertAsync(account);
@@ -129,7 +131,6 @@ namespace Hieu.FinalProject.Accounts
             account.Name = input.Name;
             account.Email = input.Email;
             account.Phone = input.Phone;
-            account.Acc = input.Acc;
             account.Pass = input.Pass;
             account.TenantId = input.TenantId;
 
@@ -202,6 +203,22 @@ namespace Hieu.FinalProject.Accounts
 
         }
 
+        [HttpGet("api/app/account/lock-account")]
+        public async Task<AccountNewDto> LockAccount(long id)
+        {
+            var account = await _accountRepos.GetAsync(id);
+            account.LockStatus = false;
+            return ObjectMapper.Map<Account, AccountNewDto>(account);
+        }
+
+        [HttpGet("api/app/account/unlock-account")]
+        public async Task<AccountNewDto> UnLockAccount(long id)
+        {
+            var account = await _accountRepos.GetAsync(id);
+            account.LockStatus = true;
+            return ObjectMapper.Map<Account, AccountNewDto>(account);
+        }
+
         public async Task<AccountNewDto> DeleteAsync(long id)
         {
             var account = await _accountRepos.GetAsync(id);
@@ -235,6 +252,7 @@ namespace Hieu.FinalProject.Accounts
             accountDtos.Acc = accountDto.Acc;
             accountDtos.Pass = accountDto.Pass;
             accountDtos.TenantId = accountDto.TenantId;
+            accountDtos.LockStatus = accountDto.LockStatus;
 
             return accountDtos;
         }

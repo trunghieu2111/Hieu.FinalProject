@@ -62,6 +62,7 @@ namespace Hieu.FinalProject.Branchs
                 Email = input.AccountBranch.Email,
                 Acc = input.AccountBranch.Acc,
                 Pass = input.AccountBranch.Pass,
+                LockStatus = true,
                 TenantId = idBranch
             };
             await _accountRepos.InsertAsync(account);
@@ -177,6 +178,21 @@ namespace Hieu.FinalProject.Branchs
             branch.MST = input.MST;
             branch.NameBranch = input.NameBranch;
             branch.Address = input.Address;
+
+            await _branchRepos.UpdateAsync(branch);
+            return ObjectMapper.Map<Branch, BranchDto>(branch);
+        }
+
+        [HttpPut("api/app/branch/updateInforTenant/{id}")]
+        public async Task<BranchDto> UpdateInforTenantAsync(Guid id, BranchDto input)
+        {
+            var branch = await _branchRepos.GetAsync(id);
+            branch.LegalName = input.LegalName;
+            branch.BankAcount = input.BankAcount;
+            branch.BankName = input.BankName;
+            branch.Phone = input.Phone;
+            branch.Fax = input.Fax;
+            branch.Email = input.Email;
 
             await _branchRepos.UpdateAsync(branch);
             return ObjectMapper.Map<Branch, BranchDto>(branch);
