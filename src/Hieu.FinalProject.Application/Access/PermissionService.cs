@@ -203,6 +203,7 @@ namespace Hieu.FinalProject.Access
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
                              x => x.RoleName.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var myRole = await query.Select
                 (x => ObjectMapper.Map<MyRole, MyRoleDto>(x)).ToListAsync();

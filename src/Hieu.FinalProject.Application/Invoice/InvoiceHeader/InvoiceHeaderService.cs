@@ -429,6 +429,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
                              x => x.InvoiceNumber.ToString().Contains(keyword)
                              || x.CompanyNameSeller.Contains(keyword)
                              || x.TaxCodeSeller.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var invoiceHeader = await query.Select
                 (x => ObjectMapper.Map<InvoiceHeader, InvoiceHeaderDto>(x)).ToListAsync();

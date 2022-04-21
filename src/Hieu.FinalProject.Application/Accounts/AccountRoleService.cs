@@ -267,6 +267,7 @@ namespace Hieu.FinalProject.Accounts
                              x => x.Name.Contains(keyword)
                              || x.Email.Contains(keyword)
                              || x.Acc.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var account = await query.Select
                 (x => ObjectMapper.Map<Account, AccountNewDto>(x)).ToListAsync();

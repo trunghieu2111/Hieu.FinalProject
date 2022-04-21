@@ -52,6 +52,7 @@ namespace Hieu.FinalProject.Customers
                              x => x.Name.Contains(keyword)
                              || x.Address.Contains(keyword)
                              || x.Daidienphapnhan.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var customers = await query.Select
                 (x => ObjectMapper.Map<Customer, CustomerDto>(x)).ToListAsync();

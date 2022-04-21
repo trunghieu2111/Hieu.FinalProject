@@ -136,6 +136,7 @@ namespace Hieu.FinalProject.Branchs
                              x => x.NameBranch.Contains(keyword)
                              || x.Address.Contains(keyword)
                              || x.MST.Contains(keyword))
+                .OrderBy(x => x.NameBranch)
                 ;
             var branches = await query.Select
                 (x => ObjectMapper.Map<Branch, BranchDto>(x)).ToListAsync();
