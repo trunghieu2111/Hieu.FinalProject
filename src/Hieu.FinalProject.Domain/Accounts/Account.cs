@@ -11,6 +11,7 @@ namespace Hieu.FinalProject.Accounts
         public string Phone { set; get; }
         public string Acc { set; get; }
         public string Pass { set; get; }
+        public bool LockStatus { set; get; }
 
         /*[ForeignKey("Branch")]*/
         public Guid TenantId { set; get; }

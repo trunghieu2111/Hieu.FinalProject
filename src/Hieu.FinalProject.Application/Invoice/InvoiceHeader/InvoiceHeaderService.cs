@@ -34,6 +34,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
         {
             var invoiceHeader = new InvoiceHeader
             {
+                PersonCreateUpdate = input.PersonCreateUpdate,
                 TenantId = input.TenantId,
                 TaxCodeBuyer = input.TaxCodeBuyer,
                 CompanyNameBuyer = input.CompanyNameBuyer,
@@ -126,8 +127,8 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
         {
             var invoiceHeaderID = await _repository.GetAsync(id);
 
-            invoiceHeaderID.TenantId = input.TenantId;
             invoiceHeaderID.TaxCodeBuyer = input.TaxCodeBuyer;
+            invoiceHeaderID.PersonCreateUpdate = input.PersonCreateUpdate;
             invoiceHeaderID.CompanyNameBuyer = input.CompanyNameBuyer;
             invoiceHeaderID.AddressBuyer = input.AddressBuyer;
             invoiceHeaderID.TaxCodeSeller = input.TaxCodeSeller;
@@ -390,6 +391,7 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
 
             invoiceHeaderDtos.Id = id;
             invoiceHeaderDtos.TenantId = invoiceHeaderDto.TenantId;
+            invoiceHeaderDtos.PersonCreateUpdate = invoiceHeaderDto.PersonCreateUpdate;
             invoiceHeaderDtos.TaxCodeBuyer = invoiceHeaderDto.TaxCodeBuyer;
             invoiceHeaderDtos.CompanyNameBuyer = invoiceHeaderDto.CompanyNameBuyer;
             invoiceHeaderDtos.AddressBuyer = invoiceHeaderDto.AddressBuyer;
@@ -424,9 +426,10 @@ namespace Hieu.FinalProject.Invoice.InvoiceHeader
             var query = invoiceParentId.AsNoTracking()
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
-                             x => x.FulNameSeller.Contains(keyword)
+                             x => x.InvoiceNumber.ToString().Contains(keyword)
                              || x.CompanyNameSeller.Contains(keyword)
                              || x.TaxCodeSeller.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var invoiceHeader = await query.Select
                 (x => ObjectMapper.Map<InvoiceHeader, InvoiceHeaderDto>(x)).ToListAsync();

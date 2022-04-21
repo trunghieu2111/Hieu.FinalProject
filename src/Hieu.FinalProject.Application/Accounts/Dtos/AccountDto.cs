@@ -10,6 +10,7 @@ namespace Hieu.FinalProject.Accounts.Dtos
 {
     public class AccountDto : AuditedEntityDto<long>
     {
+        public bool LockStatus { set; get; }
         public string Name { set; get; }
         public string Email { set; get; }
         public string Phone { set; get; }

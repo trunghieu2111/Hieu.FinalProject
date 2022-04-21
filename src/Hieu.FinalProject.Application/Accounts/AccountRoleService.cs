@@ -1,5 +1,6 @@
 ﻿using Hieu.FinalProject.Accounts.Dtos;
 using Hieu.FinalProject.Accout_Role;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,66 @@ namespace Hieu.FinalProject.Accounts
 
         public async Task<AccountNewDto> CreateAsync(AccountNewDto input)
         {
-            var account = new Account
+            var flagAcc = 0;
+            foreach(var item in _accountRepos)
+            {
+                if(item.Acc == input.Acc && item.TenantId == input.TenantId)
+                {
+                    flagAcc = 1;
+                    break;
+                }
+            }
+
+            if(flagAcc == 0)
+            {
+                var account = new Account
+                {
+                    Name = input.Name,
+                    Email = input.Email,
+                    Phone = input.Phone,
+                    Acc = input.Acc,
+                    Pass = input.Pass,
+                    TenantId = input.TenantId,
+                    LockStatus = true
+                };
+
+                await _accountRepos.InsertAsync(account);
+
+                //lấy id của account
+                await UnitOfWorkManager.Current.SaveChangesAsync();
+
+                var idAccount = account.Id;
+
+                var accountRolesEntity = new List<Account_Role>();
+                if (!input.AccountRoles.Any())
+                {
+                    // trả ra lỗi vì không được để trống
+                }
+
+                foreach (var item in input.AccountRoles)
+                {
+                    var accountRole = new Account_Role
+                    {
+                        RoleID = item.RoleID,
+                        AccountID = idAccount
+                    };
+
+                    accountRolesEntity.Add(accountRole);
+                }
+
+                await _accountRoleRepos.InsertManyAsync(accountRolesEntity);
+
+                return ObjectMapper.Map<Account, AccountNewDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
+            }
+            else
+            {
+                var account = new Account
+                {
+                   Acc  = "0"
+                };
+                return ObjectMapper.Map<Account, AccountNewDto>(account);
+            }
+            /*var account = new Account
             {
                 Name = input.Name,
                 Email = input.Email,
@@ -62,7 +122,7 @@ namespace Hieu.FinalProject.Accounts
 
             await _accountRoleRepos.InsertManyAsync(accountRolesEntity);
 
-            return ObjectMapper.Map<Account, AccountNewDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.
+            return ObjectMapper.Map<Account, AccountNewDto>(account); //ObjectMapper này có sẵn từ lớp kế thừa nếu k có thì phải khai báo mới dùng đc.*/
         }
 
         public async Task<AccountNewDto> UpdateAsync(long id, AccountNewDto input)
@@ -71,7 +131,6 @@ namespace Hieu.FinalProject.Accounts
             account.Name = input.Name;
             account.Email = input.Email;
             account.Phone = input.Phone;
-            account.Acc = input.Acc;
             account.Pass = input.Pass;
             account.TenantId = input.TenantId;
 
@@ -144,6 +203,22 @@ namespace Hieu.FinalProject.Accounts
 
         }
 
+        [HttpGet("api/app/account/lock-account")]
+        public async Task<AccountNewDto> LockAccount(long id)
+        {
+            var account = await _accountRepos.GetAsync(id);
+            account.LockStatus = false;
+            return ObjectMapper.Map<Account, AccountNewDto>(account);
+        }
+
+        [HttpGet("api/app/account/unlock-account")]
+        public async Task<AccountNewDto> UnLockAccount(long id)
+        {
+            var account = await _accountRepos.GetAsync(id);
+            account.LockStatus = true;
+            return ObjectMapper.Map<Account, AccountNewDto>(account);
+        }
+
         public async Task<AccountNewDto> DeleteAsync(long id)
         {
             var account = await _accountRepos.GetAsync(id);
@@ -177,6 +252,7 @@ namespace Hieu.FinalProject.Accounts
             accountDtos.Acc = accountDto.Acc;
             accountDtos.Pass = accountDto.Pass;
             accountDtos.TenantId = accountDto.TenantId;
+            accountDtos.LockStatus = accountDto.LockStatus;
 
             return accountDtos;
         }
@@ -191,6 +267,7 @@ namespace Hieu.FinalProject.Accounts
                              x => x.Name.Contains(keyword)
                              || x.Email.Contains(keyword)
                              || x.Acc.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var account = await query.Select
                 (x => ObjectMapper.Map<Account, AccountNewDto>(x)).ToListAsync();

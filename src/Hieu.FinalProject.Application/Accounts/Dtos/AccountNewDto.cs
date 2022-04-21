@@ -14,6 +14,7 @@ namespace Hieu.FinalProject.Accounts.Dtos
         public string Phone { set; get; }
         public string Acc { set; get; }
         public string Pass { set; get; }
+        public bool LockStatus { set; get; }
         public Guid TenantId { set; get; }
         public List<AccountRoleDto> AccountRoles { get; set; }
     }

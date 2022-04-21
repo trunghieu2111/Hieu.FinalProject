@@ -69,7 +69,6 @@ namespace Hieu.FinalProject.Access
             var myRole = await _myRoleRepos.GetAsync(id);
 
             myRole.RoleName = input.RoleName;
-            myRole.TenantId = input.TenantId;
 
             await _myRoleRepos.UpdateAsync(myRole);
             //update role_permission
@@ -204,6 +203,7 @@ namespace Hieu.FinalProject.Access
                 .WhereIf(
                              !string.IsNullOrEmpty(input.Keyword),
                              x => x.RoleName.Contains(keyword))
+                .OrderByDescending(x => x.Id)
                 ;
             var myRole = await query.Select
                 (x => ObjectMapper.Map<MyRole, MyRoleDto>(x)).ToListAsync();
